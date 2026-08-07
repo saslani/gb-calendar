@@ -22,12 +22,12 @@ import { localSql } from './local-db.js';
 let remote;
 
 export function isLocal() {
-  return !process.env.NETLIFY_DATABASE_URL;
+return !(process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL); 
 }
 
 export function sql() {
   if (isLocal()) return localSql;
 
-  remote ??= neon();
+  remote ??= neon(process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL); 
   return remote;
 }
